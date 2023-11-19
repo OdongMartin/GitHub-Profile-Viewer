@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const https = require('https');
-require('dotenv').config();
 
+require('dotenv').config();
 const apiKey = process.env.APIKEY;
 
 router.get('/github/userinfo/:user', async function(req, res) {
