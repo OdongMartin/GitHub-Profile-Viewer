@@ -9,6 +9,9 @@ const api = require('./routes/api.js');
 
 const cors = require('cors');
 
+app.set('views', 'views');
+app.set('view engine', 'pug');
+
 app.use(bodyParser.json());
 app.use(cors());
 

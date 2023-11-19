@@ -1,0 +1,18 @@
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Document
+    body 
+        h USER INFO
+        br
+        img(src=`${avatar}`, alt="git avatar" width="50")
+        p Name: #{name}
+        p Username: #{username}
+        p Bio: #{bio}
+
+        h GITHUB STATS
+        p Private Repositories(#{private}) and Public Repositories(#{public})
+        p Followers: #{followers}
+        p Following: #{following}
+        p Joined: #{joined}
