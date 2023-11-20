@@ -14,8 +14,13 @@ html(lang="en")
         main
             block content
         footer
-            span Search History
-            ul 
-            each name in searchHistory
-                li #{name}
+            div
+                span Search History
+
+            if(searchHistory)
+                ul 
+                each name in searchHistory
+                    li #{name}
+            
+
             p Made by OM
