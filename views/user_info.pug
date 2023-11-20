@@ -1,14 +1,14 @@
-html(lang="en")
-    head
-        meta(charset="UTF-8")
-        meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title Document
-    body 
+extends layout
+
+block content
+    div
         h USER INFO
         br
         img(src=`${avatar}`, alt="git avatar" width="50")
         p Name: #{name}
         p Username: #{username}
+        p Email: #{email}
+        p Location: #{location}
         p Bio: #{bio}
 
         h GITHUB STATS
@@ -16,3 +16,8 @@ html(lang="en")
         p Followers: #{followers}
         p Following: #{following}
         p Joined: #{joined}
+        p Twitter: #{twitter}
+
+        form(action=`/api/reposinfo/${username}` method="POST") 
+            button(type="submit") Top Repositories
+

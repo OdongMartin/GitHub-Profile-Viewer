@@ -1,10 +1,8 @@
-html(lang="en")
-    head
-        meta(charset="UTF-8")
-        meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title Document
-    body 
-        h REPOSITORY LIST
-        
-        each repo in repos 
-            p #{repo.name}
+extends layout 
+
+block content
+    h REPOSITORY LIST
+    
+    ul 
+    each repo in repos 
+        li #{repo.name}

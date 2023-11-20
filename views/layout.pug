@@ -1,0 +1,17 @@
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title GitHub Profile Viewer
+    body
+        header 
+            span GitHub Profile Viewer
+            form(action="/api" method="POST") 
+                input(type="text", name="username", id="username", placeholder="Github Username")
+                button(type="submit") Fetch Profile
+        if(message)
+            p #{message}
+        main
+            block content
+        footer 
+            p Made by OM

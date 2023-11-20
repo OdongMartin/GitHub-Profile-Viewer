@@ -5,6 +5,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 
+//form data things and using url to fetch data
+const multer = require('multer');
+const upload = multer();
+app.use(upload.array()); 
+app.use(bodyParser.urlencoded({extended : true}));
+
 const api = require('./routes/api.js');
 
 const cors = require('cors');
@@ -25,7 +31,7 @@ app.use(function(req, res, next) {
 
 app.use('/api', api);
 app.get('/', function(req, res) {
-    res.send('server up');
+    res.redirect('/api');
 })
 
 app.listen(PORT, function() {
