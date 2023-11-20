@@ -13,5 +13,9 @@ html(lang="en")
             p #{message}
         main
             block content
-        footer 
+        footer
+            span Search History
+            ul 
+            each name in searchHistory
+                li #{name}
             p Made by OM
