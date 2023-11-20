@@ -102,7 +102,7 @@ router.post('/', async function(req, res) {
     });
 });*/
 
-router.post('/reposinfo/:user', async function(req, res) {
+router.post('/repos/:user', async function(req, res) {
     const user = req.params.user;
     const options = {
         hostname: 'api.github.com',
