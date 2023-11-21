@@ -11,6 +11,8 @@ const upload = multer();
 app.use(upload.array()); 
 app.use(bodyParser.urlencoded({extended : true}));
 
+app.use(express.static('public'));
+
 const api = require('./routes/api.js');
 
 const cors = require('cors');
@@ -32,7 +34,15 @@ app.use(function(req, res, next) {
 app.use('/api', api);
 app.get('/', function(req, res) {
     res.redirect('/api');
-})
+});
+
+app.get('/manifest.json', function(req, res) {
+    res.sendFile('public', 'manifest.json');
+});
+  
+app.get('/service-worker.js', function(req, res) {
+    res.sendFile('public', 'service-worker.js');
+});
 
 app.listen(PORT, function() {
     console.log(`listening on port ${PORT}`);
