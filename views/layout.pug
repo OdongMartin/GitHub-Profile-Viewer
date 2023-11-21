@@ -14,14 +14,23 @@ html(lang="en")
         main
             block content
             br
-        footer
-            div
-                h Search History
+        script.
+            // Add an event listener for the space bar to focus on the input field
+            document.addEventListener('keydown', function(event) {
+                if (event.code === 'Space' && event.target.tagName !== 'INPUT') {
+                event.preventDefault();
+                document.getElementById('username').focus();
+                }
+            });
 
-            if(searchHistory)
-                ul 
-                each name in searchHistory
-                    li #{name}
+    footer
+        div
+            h Search History
+
+        if(searchHistory)
+            ul 
+            each name in searchHistory
+                li #{name}
             
 
-            p Made by OM
+        p Made by OM

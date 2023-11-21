@@ -127,7 +127,7 @@ function renderUserInfo(res, userData) {
 }
 
 function renderReposInfo(res, reposData) {
-    console.log(reposData);
+    //console.log(reposData);
     res.render('repos_info', { repos: reposData, searchHistory});
 }
 
