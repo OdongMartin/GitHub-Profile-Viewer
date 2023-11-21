@@ -30,9 +30,11 @@ block content
             if(joined)
                 p Joined: #{joined}
             if(twitter)
-                p Twitter: #{twitter}
-
-            form(action=`/api/repos/${username}` method="POST") 
+                span Twitter: 
+                a(href=`https://twitter.com/${twitter}`) #{twitter}
+        br
+        div
+            form(action=`/api/repos/${username}` method="POST")
                 button(type="submit") Top Repositories
     else 
         p Username not available

@@ -5,6 +5,7 @@ block content
         h REPOSITORY LIST
         if(repos)
             ul 
-            each repo in repos 
-                li #{repo.name}
+            each repo in repos
+                if(repo)
+                    li #{repo.name}
     

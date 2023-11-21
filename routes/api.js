@@ -48,6 +48,7 @@ router.post('/', async function(req, res) {
                     profileCache[req.body.username] = userData;
                     updateSearchHistory(req.body.username);
                     renderUserInfo(res, userData);
+                    //console.log(userData);
     
                     //console.log(userData);
                 } catch (e) {
@@ -62,49 +63,6 @@ router.post('/', async function(req, res) {
     }
     
 });
-
-/*router.get('/github/userinfo/:user', async function(req, res) {
-    const user = req.params.user;
-    const options = {
-        hostname: 'api.github.com',
-        path: '/users/'+ user,
-        headers: {
-            'User-Agent': 'OdongMartin',
-            'Authorization': `Bearer ${apiKey}`,
-        },
-        //OAuth: apiKey,
-    }
-    https.get(options, function(apiResponse) {
-        let rawData = '';
-        
-        apiResponse.on('data', function(chunk) {
-            rawData += chunk;
-        });
-
-        apiResponse.on('end', function() {
-            try {
-                const userData = JSON.parse(rawData);
-                res.render('user_info', {
-                    avatar : userData.avatar_url, 
-                    name : userData.name, 
-                    username : userData.login, 
-                    bio : userData.bio, 
-                    private : userData.total_private_repos, 
-                    public : userData.public_repos, 
-                    followers : userData.followers, 
-                    following : userData.following, 
-                    joined : userData.created_at
-                });
-            } catch (e) {
-                console.error(e.message);
-                res.status(500).send('Error processing GitHub API response');
-            }
-        });
-    }).on('error', function(err) {
-        console.error(err);
-        res.status(500).send('Error communicating with GitHub API');
-    });
-});*/
 
 router.post('/repos/:user', async function(req, res) {
     const user = req.params.user;
@@ -178,7 +136,7 @@ function updateSearchHistory(username) {
     if (!searchHistory.includes(username)) {
         searchHistory.push(username);
     }
-    console.log(searchHistory);
+    //console.log(searchHistory);
 }
 
 module.exports = router;
