@@ -1,9 +1,10 @@
 extends layout 
 
 block content
-    h REPOSITORY LIST
-    if(repos)
-        ul 
-        each repo in repos 
-            li #{repo.name}
+    div
+        h REPOSITORY LIST
+        if(repos)
+            ul 
+            each repo in repos 
+                li #{repo.name}
     

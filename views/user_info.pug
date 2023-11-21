@@ -1,23 +1,39 @@
 extends layout
 
 block content
-    div
-        h USER INFO
-        br
-        img(src=`${avatar}`, alt="git avatar" width="50")
-        p Name: #{name}
-        p Username: #{username}
-        p Email: #{email}
-        p Location: #{location}
-        p Bio: #{bio}
+    if (username)
+        div
+            h USER INFO
+            br
+            img(src=`${avatar}`, alt="git avatar" width="50")
+            if(name)
+                p Name: #{name}
+            if(username)
+                p Username: #{username}
+            if(email)
+                p Email: #{email}
+            if(location)
+                p Location: #{location}
+            if(bio)
+                p Bio: #{bio}
 
-        h GITHUB STATS
-        p Private Repositories(#{private}) and Public Repositories(#{public})
-        p Followers: #{followers}
-        p Following: #{following}
-        p Joined: #{joined}
-        p Twitter: #{twitter}
+        div
+            h GITHUB STATS
+            if(private)
+                p Private Repositories(#{private})
+            if(public)
+                p Public Repositories(#{public})
+            if(followers)
+                p Followers: #{followers}
+            if(following)
+                p Following: #{following}
+            if(joined)
+                p Joined: #{joined}
+            if(twitter)
+                p Twitter: #{twitter}
 
-        form(action=`/api/repos/${username}` method="POST") 
-            button(type="submit") Top Repositories
+            form(action=`/api/repos/${username}` method="POST") 
+                button(type="submit") Top Repositories
+    else 
+        p Username not available
 
