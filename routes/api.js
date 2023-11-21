@@ -11,6 +11,14 @@ const profileCache = {};
 // Search history array
 const searchHistory = [];
 
+router.get('/documentation', function(req, res){
+    res.render('documentation',searchHistory);
+})
+
+router.get('/feedback', function(req, res){
+    res.render('feedback',searchHistory);
+})
+
 router.get('/', function(req, res) {
     res.render('layout');
 })

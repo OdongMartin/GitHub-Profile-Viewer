@@ -4,13 +4,20 @@ html(lang="en")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title GitHub Profile Viewer
     body
-        header 
-            span GitHub Profile Viewer
-            form(action="/api" method="POST") 
-                input(type="text", name="username", id="username", placeholder="Github Username")
-                button(type="submit") Fetch Profile
-        if(message)
-            p #{message}
+        div 
+            header 
+                span GitHub Profile Viewer
+                form(action="/api" method="POST") 
+                    input(type="text", name="username", id="username", placeholder="Github Username")
+                    button(type="submit") Fetch Profile
+                if(message)
+                    p #{message}
+        div 
+            nav 
+                a(href="/api") Home
+                a(href="/api/documentation") Documentation
+                a(href="/api/feedback") Feedback
+                a(href="/logout") Logout
         main
             block content
             br
