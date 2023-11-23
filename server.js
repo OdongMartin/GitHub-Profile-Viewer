@@ -17,6 +17,15 @@ const api = require('./routes/api.js');
 
 const cors = require('cors');
 
+//express-session
+const session = require('express-session');
+app.use(session({
+    secret: "12345678987654321",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 3600000 }, // Session expiration time
+}));
+
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
 mongoose.connect('mongodb://127.0.0.1/my_db');
@@ -43,22 +52,96 @@ app.use(function(req, res, next) {
 });
 
 app.get('/login', function(req, res){
+    userInfo.find().then(function(user){console.log(user)});
     res.render('login');
 });
 app.post('/login', function(req, res){
-    //
+    // still needs improving first work on signup
+    userInfo.findOne({ 
+        username: req.body.username,
+        password : req.body.password
+    }).then(function(user){
+        console.log('logged in');
+    }).catch(function(err){
+        console.log(err);
+    });
 });
 
 app.get('/signup', function(req, res){
+    console.log(userInfo.username + " : " + userInfo.password);
     res.render('signup');
 });
 app.post('/signup', function(req, res){
-    //
+    if (!/^[a-zA-Z0-9]+$/.test(req.body.id) || req.body.id.includes(' ')) {
+        return res.render('signup', { message: 'Invalid username format' });
+    }
+
+    userInfo.findOne({username : req.body.id
+    })
+        .then(function(user){
+            if(user){
+                res.render('signup', {message : "Username Already Exists"});
+            }
+            else if (!user) {
+                if (req.body.password === req.body.confirmPassword){
+                    var newUser = new userInfo ({
+                        username : req.body.id.toLowerCase(),
+                        password : req.body.password
+                    });
+
+                    req.session.user = newUser;
+
+                    newUser.save()
+                        .then(function(){
+                            res.redirect('/login');
+                        })
+                        .catch(function(error){
+                            console.log(error);
+                        })
+
+                }
+            }
+        })
+        .catch(function(err){
+            console.log(err);
+        });
 });
+
+    /*userInfo.findOne({username : req.body.id}, function (err, existingUser){
+        if (err) {
+            res.render('signup', {message : "Database Error"});
+        }
+        else if (existingUser) {
+            res.render('signup', {message : "Username Already Exists"});
+        }
+        else {
+            if (req.body.password === req.body.confirmPassword){
+                var newUser = new userInfo ({
+                    username : req.body.id.toLowerCase(),
+                    password : req.body.password
+                });
+
+                req.session.user = newUser;
+
+                newUser.save(function(err, userInfo) {
+                    if(err){
+                        res.send("error saving user to database");
+                    }
+                    else {
+                        res.redirect('/login');
+                    }
+                });
+            }
+
+            else {
+                res.render('signup', {message : "Confirm with same password"});
+            }
+        }
+    })
+});*/
 
 app.use('/api', api);
 app.get('/', function(req, res) {
-    console.log(userInfo);
     res.redirect('/api');
 });
 
