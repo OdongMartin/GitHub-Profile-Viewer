@@ -68,6 +68,27 @@ passport.deserializeUser(function(userObj, done) {
 
 });
 
+//middle ware to be used later
+function checkSignIn(req, res, next){
+    //check if session exists
+    if(req.isAuthenticated()){
+       return next();    
+    } else {
+       res.redirect('/login'); 
+    }
+}
+function checkLoggedIn(req, res, next){
+    if (req.isAuthenticated()) { 
+        return res.redirect("/api");
+    }
+   next();
+}
+
+/*module.exports = {
+    checkLoggedIn,
+    checkSignIn,
+};*/
+
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
 mongoose.connect('mongodb://127.0.0.1/my_db');
@@ -211,21 +232,6 @@ app.get('/service-worker.js', function(req, res) {
     res.sendFile('public', 'service-worker.js');
 });
 
-//middle ware to be used later
-function checkSignIn(req, res, next){
-    //check if session exists
-    if(req.isAuthenticated()){
-       return next();    
-    } else {
-       res.redirect('/login'); 
-    }
-}
-function checkLoggedIn(req, res, next){
-    if (req.isAuthenticated()) { 
-        return res.redirect("/api");
-    }
-   next();
-}
 
 app.listen(PORT, function() {
     console.log(`listening on port ${PORT}`);

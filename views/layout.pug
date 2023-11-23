@@ -19,6 +19,9 @@ html(lang="en")
                 a(href="/api/documentation") Documentation
                 a(href="/api/feedback") Feedback
                 a(href="/logout") Logout
+                if(!loggedIn)
+                    a(href="/login") Login
+                    a(href="/signup") Signup
         main
             block content
             br

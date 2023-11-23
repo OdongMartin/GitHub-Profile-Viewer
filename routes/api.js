@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const https = require('https');
+//const {checkLoggedIn, checkSignIn} = require('../server');
 
 require('dotenv').config();
 const apiKey = process.env.APIKEY;
@@ -12,21 +13,21 @@ const profileCache = {};
 const searchHistory = [];
 
 router.get('/documentation', function(req, res){
-    res.render('documentation',searchHistory);
+    res.render('documentation', { searchHistory,  loggedIn: req.isAuthenticated()});
 })
 
 router.get('/feedback', function(req, res){
-    res.render('feedback',searchHistory);
+    res.render('feedback', { searchHistory,  loggedIn: req.isAuthenticated()});
 })
 
 router.get('/', function(req, res) {
-    res.render('layout');
+    res.render('layout', { loggedIn: req.isAuthenticated()});
 })
 
-router.post('/', async function(req, res) {
+router.post('/', function(req, res) {
     // Check if the username only contains lowercase letters and no spaces
     if (!/^[a-zA-Z0-9]+$/.test(req.body.username) || req.body.username.includes(' ')) {
-        return res.render('layout', { message: 'Invalid username format' });
+        return res.render('layout', { message: 'Invalid username format' , loggedIn: req.isAuthenticated()});
     }
 
     if (profileCache[req.body.username]) {
@@ -130,13 +131,14 @@ function renderUserInfo(res, userData) {
         following: userData.following,
         joined: userData.created_at,
         twitter: userData.twitter_username,
-        searchHistory
+        searchHistory,
+        loggedIn: req.isAuthenticated()
     });
 }
 
 function renderReposInfo(res, reposData) {
     //console.log(reposData);
-    res.render('repos_info', { repos: reposData, searchHistory});
+    res.render('repos_info', { repos: reposData, searchHistory, loggedIn: req.isAuthenticated()});
 }
 
 function updateSearchHistory(username) {
@@ -148,7 +150,7 @@ function updateSearchHistory(username) {
 }
 
 //middle ware to be used later
-function checkSignIn(req, res, next){
+/*function checkSignIn(req, res, next){
     //check if session exists
     if(req.isAuthenticated()){
        return next();    
@@ -161,6 +163,6 @@ function checkLoggedIn(req, res, next){
         return res.redirect("/api");
     }
    next();
-}
+}*/
 
 module.exports = router;
