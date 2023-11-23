@@ -17,6 +17,8 @@ const api = require('./routes/api.js');
 
 const cors = require('cors');
 
+const bcrypt = require('bcrypt');
+
 //express-session
 const session = require('express-session');
 app.use(session({
@@ -119,20 +121,33 @@ app.get('/login', checkLoggedIn, function(req, res){
     res.render('login');
 });
 app.post('/login', function(req, res, next){
-    passport.authenticate('local', function(err, user, info) {
+    passport.authenticate('local',  function(err, user, info) {
+        console.log("user password is " + user.password);
+        console.log("req password is " + req.body.password);
         if (err) {
             return next(err);
         }
-        if (!user) {
+        if (!user || !user.password) {
             return res.render('login', {message : "Enter correct details or just sign up"});
         }
 
-        //manually establishing user sesssion
-        req.logIn(user, function(err) {
-            if (err) {
-                return next(err);
+        bcrypt.compare(req.body.password, user.password, function(err, result) {
+
+            console.log(result);
+            if (err || !result) {
+                return res.render('login', { message: 'Enter correct details or just sign up' });
             }
-            return res.redirect('/api');
+            
+            else{
+                //manually establishing user sesssion
+                req.logIn(user, function(err) {
+                    if (err) {
+                        return next(err);
+                    }
+                    return res.redirect('/api');
+                });
+            }
+
         });
 
     })(req, res, next);
@@ -155,36 +170,43 @@ app.post('/signup', function(req, res){
         return res.render('signup', { message: 'Invalid username format' });
     }
 
-    userInfo.findOne({username : req.body.id
-    })
+    userInfo.findOne({username : req.body.id})
         .then(function(user){
             if(user){
                 res.render('signup', {message : "Username Already Exists"});
             }
-            else if (!user) {
-                if (req.body.password === req.body.confirmPassword){
-                    var newUser = new userInfo ({
-                        username : req.body.id.toLowerCase(),
-                        password : req.body.password
-                    });
+            else {
+                bcrypt.hash(req.body.password, 10, function(err, hash) {
+                    if (err) {
+                        console.log(err);
+                        return res.render('signup', { message: 'Error hashing password' });
+                    }
 
-                    req.session.user = newUser;
+                    if (req.body.password === req.body.confirmPassword){
+                        var newUser = new userInfo ({
+                            username : req.body.id.toLowerCase(),
+                            password : hash
+                        });
 
-                    newUser.save()
-                        .then(function(){
-                            res.redirect('/login');
-                        })
-                        .catch(function(error){
-                            console.log(error);
-                        })
+                        req.session.user = newUser;
 
-                }
+                        newUser.save()
+                            .then(function(){
+                                res.redirect('/login');
+                            })
+                            .catch(function(error){
+                                console.log(error);
+                            });
+                    }
+                });
+            
             }
         })
         .catch(function(err){
             console.log(err);
-        });
+    });
 });
+
 
     /*userInfo.findOne({username : req.body.id}, function (err, existingUser){
         if (err) {
