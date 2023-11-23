@@ -26,6 +26,48 @@ app.use(session({
     cookie: { maxAge: 3600000 }, // Session expiration time
 }));
 
+//authentication using passportjs
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+
+// Initializing Passport.js
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(
+    new LocalStrategy(function(username, password, done) {
+        userInfo.findOne({ 
+            username: username,
+            password : password
+        }).then(function(user){
+            if(!user){
+                return done(null, false, { message: 'Incorrect username' });
+            }
+            if(user){
+                return done(null, user);
+            }
+        }).catch(function(err){
+            console.log(err);
+            return done(err);
+        });
+    })
+);
+passport.serializeUser(function(userObj, done) {
+    done(null, userObj); // Serialize user ID into the session
+  });
+  
+passport.deserializeUser(function(userObj, done) {
+    // Retrieve the user from the database based on the iD
+    userInfo.findOne(userObj)
+        .then(function(user){
+            done(null, user);
+        })
+        .catch(function(err){
+            return done(err);
+    })
+
+});
+
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
 mongoose.connect('mongodb://127.0.0.1/my_db');
@@ -51,19 +93,35 @@ app.use(function(req, res, next) {
     next();
 });
 
-app.get('/login', function(req, res){
+app.get('/login', checkLoggedIn, function(req, res){
     userInfo.find().then(function(user){console.log(user)});
     res.render('login');
 });
-app.post('/login', function(req, res){
-    // still needs improving first work on signup
-    userInfo.findOne({ 
-        username: req.body.username,
-        password : req.body.password
-    }).then(function(user){
-        console.log('logged in');
-    }).catch(function(err){
-        console.log(err);
+app.post('/login', function(req, res, next){
+    passport.authenticate('local', function(err, user, info) {
+        if (err) {
+            return next(err);
+        }
+        if (!user) {
+            return res.render('login', {message : "Enter correct details or just sign up"});
+        }
+
+        //manually establishing user sesssion
+        req.logIn(user, function(err) {
+            if (err) {
+                return next(err);
+            }
+            return res.redirect('/api');
+        });
+
+    })(req, res, next);
+});
+
+//logout
+app.get('/logout', function(req, res){
+    req.session.destroy(function(err) {
+        // Destroy the session
+        res.redirect('/login');
     });
 });
 
@@ -152,6 +210,22 @@ app.get('/manifest.json', function(req, res) {
 app.get('/service-worker.js', function(req, res) {
     res.sendFile('public', 'service-worker.js');
 });
+
+//middle ware to be used later
+function checkSignIn(req, res, next){
+    //check if session exists
+    if(req.isAuthenticated()){
+       return next();    
+    } else {
+       res.redirect('/login'); 
+    }
+}
+function checkLoggedIn(req, res, next){
+    if (req.isAuthenticated()) { 
+        return res.redirect("/api");
+    }
+   next();
+}
 
 app.listen(PORT, function() {
     console.log(`listening on port ${PORT}`);

@@ -147,4 +147,20 @@ function updateSearchHistory(username) {
     //console.log(searchHistory);
 }
 
+//middle ware to be used later
+function checkSignIn(req, res, next){
+    //check if session exists
+    if(req.isAuthenticated()){
+       return next();    
+    } else {
+       res.redirect('/login'); 
+    }
+}
+function checkLoggedIn(req, res, next){
+    if (req.isAuthenticated()) { 
+        return res.redirect("/api");
+    }
+   next();
+}
+
 module.exports = router;
