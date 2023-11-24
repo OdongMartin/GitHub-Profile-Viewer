@@ -88,7 +88,6 @@ passport.use(
                 return done(null, false, { message: 'Incorrect username' });
             }
             
-            // Ensure that 'password' is retrieved along with 'username' from the database
             if (!user.password) {
                 return done(null, false, { message: 'Incorrect password' });
             }
