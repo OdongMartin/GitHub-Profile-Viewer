@@ -116,6 +116,18 @@ app.use(function(req, res, next) {
     next();
 });
 
+//note: this deletes entire database
+/*app.get('/delete', function(req, res) {
+    userInfo.deleteMany({})
+    .then(function(user) {
+        console.log ("removed all data");
+    })
+    .catch(function(err) {
+        console.error("Error removing data:", err);
+        res.status(500).send("Internal Server Error");
+    });
+});*/
+
 app.get('/login', checkLoggedIn, function(req, res){
     userInfo.find().then(function(user){console.log(user)});
     res.render('login');
