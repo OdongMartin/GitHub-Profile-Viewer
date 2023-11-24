@@ -28,6 +28,31 @@ app.use(session({
     cookie: { maxAge: 3600000 }, // Session expiration time
 }));
 
+const mongoose = require('mongoose');
+mongoose.set('strictQuery', false);
+mongoose.connect('mongodb://127.0.0.1/my_db');
+var userDetails = mongoose.Schema({
+    username: String,
+    //email: String,
+    password: String,
+});
+
+var userInfo = mongoose.model('userInfo', userDetails);
+
+app.set('views', 'views');
+app.set('view engine', 'pug');
+
+app.use(bodyParser.json());
+app.use(cors());
+
+app.use(function(req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    next();
+});
+
 //authentication using passportjs
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
@@ -36,7 +61,7 @@ const LocalStrategy = require('passport-local').Strategy;
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(
+/*passport.use(
     new LocalStrategy(function(username, password, done) {
         userInfo.findOne({ 
             username: username,
@@ -53,7 +78,37 @@ passport.use(
             return done(err);
         });
     })
+);*/
+passport.use(
+    new LocalStrategy(function(username, password, done) {
+        userInfo.findOne({ 
+            username: username,
+        }).then(function(user){
+            if (!user) {
+                return done(null, false, { message: 'Incorrect username' });
+            }
+            
+            // Ensure that 'password' is retrieved along with 'username' from the database
+            if (!user.password) {
+                return done(null, false, { message: 'Incorrect password' });
+            }
+
+            // Check the password
+            bcrypt.compare(password, user.password, function(err, result) {
+                if (err || !result) {
+                    return done(null, false, { message: 'Incorrect password' });
+                }
+
+                // Passwords match, return the user
+                return done(null, user);
+            });
+        }).catch(function(err){
+            console.log(err);
+            return done(err);
+        });
+    })
 );
+
 passport.serializeUser(function(userObj, done) {
     done(null, userObj); // Serialize user ID into the session
   });
@@ -91,30 +146,6 @@ function checkLoggedIn(req, res, next){
     checkSignIn,
 };*/
 
-const mongoose = require('mongoose');
-mongoose.set('strictQuery', false);
-mongoose.connect('mongodb://127.0.0.1/my_db');
-var userDetails = mongoose.Schema({
-    username: String,
-    //email: String,
-    password: String,
-});
-
-var userInfo = mongoose.model('userInfo', userDetails);
-
-app.set('views', 'views');
-app.set('view engine', 'pug');
-
-app.use(bodyParser.json());
-app.use(cors());
-
-app.use(function(req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-    res.setHeader('Access-Control-Allow-Credentials', true);
-    next();
-});
 
 //note: this deletes entire database
 /*app.get('/delete', function(req, res) {
@@ -139,9 +170,9 @@ app.post('/login', function(req, res, next){
         if (err) {
             return next(err);
         }
-        if (!user || !user.password) {
-            return res.render('login', {message : "Enter correct details or just sign up"});
-        }
+        //if (!user || !user.password) {
+        //    return res.render('login', {message : "Enter correct details or just sign up"});
+        //}
 
         bcrypt.compare(req.body.password, user.password, function(err, result) {
 
@@ -164,6 +195,12 @@ app.post('/login', function(req, res, next){
 
     })(req, res, next);
 });
+/*app.post('/login',
+passport.authenticate('local', {
+    successRedirect: '/api',
+    failureRedirect: '/login',
+})
+);*/
 
 //logout
 app.get('/logout', function(req, res){
