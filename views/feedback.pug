@@ -2,22 +2,23 @@ extends layout
 
 block content 
     div(class="text-xs md:text-base flex justify-center")
-        form(action='/submit-feedback' method="POST")
-            div
-                label(for="name") Name:  
-            div 
-                input(type="text", id="name", name="name", required, class="p-2 mb-3 border-2 border-black rounded-full text-black text-xs md:text-base bg-gray-300")
-            div
-                label(for="email") Email:
-            div 
-                input(type="email", id="email", name="email", required class="p-2 mb-3 border-2 border-black rounded-full text-black text-xs md:text-base bg-gray-300")
-            div
-                label(for="message") Message:
-            div
-                textarea(id="message", name="message", rows="4", required class="p-2 mb-3 border-2 border-black rounded-xl text-black text-xs md:text-base bg-gray-300")
-            div
-                button(type="submit" class=" bg-green-600 text-white px-4 py-1 rounded-full cursor-pointer border border-blue-900 hover:bg-green-800") Submit Feedback
+        div
+            form(action='/submit-feedback' method="POST")
+                div
+                    label(for="name") Name:  
+                div 
+                    input(type="text", id="name", name="name", required, class="p-2 mb-3 border-2 border-black rounded-full text-black text-xs md:text-base bg-gray-300")
+                div
+                    label(for="email") Email:
+                div 
+                    input(type="email", id="email", name="email", required class="p-2 mb-3 border-2 border-black rounded-full text-black text-xs md:text-base bg-gray-300")
+                div
+                    label(for="message") Message:
+                div
+                    textarea(id="message", name="message", rows="4", required class="p-2 mb-3 border-2 border-black rounded-xl text-black text-xs md:text-base bg-gray-300")
+                div
+                    button(type="submit" class=" bg-green-600 text-white px-4 py-1 rounded-full cursor-pointer border border-blue-900 hover:bg-green-800") Submit Feedback
 
-        div.flex.justify-center
-            if(feedmessage)
-                h.text-green-500 #{feedmessage}
+                div.p-2
+                    if(feedmessage)
+                        h.text-green-500 #{feedmessage}
