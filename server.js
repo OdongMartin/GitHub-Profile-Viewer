@@ -5,6 +5,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 
+//email things
+const nodemailer = require('nodemailer');
+const PASS = process.env.PASS;
+const EMAIL = process.env.EMAIL;
+
 //form data things and using url to fetch data
 const multer = require('multer');
 const upload = multer();
@@ -157,6 +162,43 @@ function checkLoggedIn(req, res, next){
         res.status(500).send("Internal Server Error");
     });
 });*/
+
+const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465, //or 587 for TLS
+    secure: true, //SSL (true) or TLS (false)
+    auth: {
+        user: EMAIL,
+        pass: PASS 
+    },
+    tls: {
+        rejectUnauthorized: false 
+    }
+});
+
+app.post('/submit-feedback', function(req, res) {
+    //const { name, email, message } = req.body;
+
+    // Send feedback email
+    const mailOptions = {
+        from: 'randomness2090@gmail.com',
+        to: 'odongmartin21@gmail.com',
+        subject: 'Feedback from ' + req.body.name,
+        text: `Name: ${req.body.name}\nEmail: ${req.body.email}\nMessage: ${req.body.message}`
+    };
+
+    transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+            console.error('Error sending email:', error);
+            //res.status(500).json({ success: false, message: 'Error sending feedback email.' });
+            res.render('feedback', {feedmessage : "Feedback Not Sent"})
+        } else {
+            console.log('Email sent:', info.response);
+            //res.json({ success: true, message: 'Feedback submitted successfully!' });
+            res.render('feedback', {feedmessage : "Feedback Sent"})
+        }
+    });
+});
 
 app.get('/login', checkLoggedIn, function(req, res){
     userInfo.find().then(function(user){console.log(user)});

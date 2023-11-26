@@ -62,7 +62,7 @@ html(lang="en")
                     
                     div.p-2.flex.justify-center
                         form(action="/api" method="POST") 
-                            input(type="text", name="username", id="username", placeholder="Github Username" class="p-2 mb-3 border-2 border-black rounded-full text-black text-xs md:text-base")
+                            input(type="text", name="username", id="username", placeholder="Github Username" class="p-2 mb-3 border-2 border-black rounded-full text-black text-xs md:text-base bg-gray-300")
                             button(type="submit" class=" bg-green-600 text-white px-4 py-1 rounded-full cursor-pointer border border-blue-900 hover:bg-green-800 ml-2 text-xs md:text-base") Fetch Profile
                     div(class= "text-xs md:text-base p-2 flex justify-center")
                         if(message)
@@ -87,6 +87,7 @@ html(lang="en")
                 const darkModeToggle = document.getElementById('darkModeToggle');
                 const body = document.body;
 
+                darkModeToggle.innerHTML = 'Change Theme';
                 // Check user's system preferences
                 if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
                     body.classList.add('dark-mode');
