@@ -1,25 +1,25 @@
 html
   head
     title Login
-    //link(rel="stylesheet", href="styles.css")
-  body
-    div
-      div
+    link(rel="stylesheet", href="/styles/styles.css")
+  body.bg-gray-300
+    div.flex.flex-col.items-center.justify-center.h-screen
+      div.bg-blue-500.my-20.border.rounded-3xl.p-6
 
-        div
-          h3 Login
+        div.flex.justify-center.uppercase.font-bold.text-white.text-xl
+          h Login
         br
         div
           form(action="/login" method="POST")
-            input(name="username" type="text" required placeholder="Name")
+            input(name="username" type="text" required placeholder="Name" class="mb-3 p-2 rounded-full")
             br
-            input(name="password" type="password" required placeholder="Password" )
+            input(name="password" type="password" required placeholder="Password" class="mb-3 p-2 rounded-full")
             br
-            div
-                button(type="Submit") Log in
+            div.flex.justify-center.mb-5
+                button(type="Submit" class="bg-green-600 text-white px-4 py-2 rounded-full border border-blue-900 hover:bg-green-800") Log in
         
-        nav
-            a(href='/signup' ) Sign up
+        nav.flex.justify-center.mb-5
+            a(href='/signup' class=" bg-green-600 text-white px-4 py-1 rounded-full cursor-pointer border border-blue-900 hover:bg-green-800") Sign up
         br
         if(message)
-            h4 #{message}
+            h.text-white #{message}

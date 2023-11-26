@@ -2,40 +2,61 @@ extends layout
 
 block content
     if (username)
-        div
-            h USER INFO
-            br
-            img(src=`${avatar}`, alt="git avatar" width="50")
-            if(name)
-                p Name: #{name}
-            if(username)
-                p Username: #{username}
-            if(email)
-                p Email: #{email}
-            if(location)
-                p Location: #{location}
-            if(bio)
-                p Bio: #{bio}
+        div(class = "shadow-2xl flex justify-center rounded bg-gray-200")
+            div
+                h.font-bold USER INFO
+                br
+                if(avatar)
+                    img(src=`${avatar}`, alt="git avatar" width="50" class="rounded-full")
+                if(name)
+                    span.font-semibold Name: 
+                    span #{name}
+                    br
+                if(username)
+                    span.font-semibold Username: 
+                    span #{username}
+                    br
+                if(email)
+                    span.font-semibold Email:
+                    span #{email}
+                    br
+                if(location)
+                    span.font-semibold Location: 
+                    span #{location}
+                    br
+                if(bio)
+                    span.font-semibold Bio: 
+                    span #{bio}
+                    br
 
-        div
-            h GITHUB STATS
-            if(private)
-                p Private Repositories(#{private})
-            if(public)
-                p Public Repositories(#{public})
-            if(followers)
-                p Followers: #{followers}
-            if(following)
-                p Following: #{following}
-            if(joined)
-                p Joined: #{joined}
-            if(twitter)
-                span Twitter: 
-                a(href=`https://twitter.com/${twitter}`) #{twitter}
-        br
-        div
-            form(action=`/api/repos/${username}` method="POST")
-                button(type="submit") Top Repositories
+            div
+                h.font-bold GITHUB STATS
+                br
+                if(private)
+                    span.font-semibold Private Repositories(#{private})
+                    br
+                if(public)
+                    span.font-semibold Public Repositories(#{public})
+                    br
+                if(followers)
+                    span.font-semibold Followers: 
+                    span #{followers}
+                    br
+                if(following)
+                    span.font-semibold Following: 
+                    span #{following}
+                    br
+                if(joined)
+                    span.font-semibold Joined: 
+                    span #{joined}
+                    br
+                if(twitter)
+                    span.font-semibold Twitter: 
+                    a(href=`https://twitter.com/${twitter}`) #{twitter}
+
+            div
+                form(action=`/api/repos/${username}` method="POST")
+                    button(type="submit" class=" bg-gray-600 text-white px-4 py-1 rounded-3xl cursor-pointer border border-blue-900 hover:bg-gray-800") Top Repositories
     else 
         p Username not available
 

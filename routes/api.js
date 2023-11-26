@@ -21,7 +21,7 @@ router.get('/feedback', function(req, res){
 })
 
 router.get('/', function(req, res) {
-    res.render('layout', { loggedIn: req.isAuthenticated()});
+    res.render('layout', { searchHistory, loggedIn: req.isAuthenticated()});
 })
 
 router.post('/', function(req, res) {
@@ -33,7 +33,7 @@ router.post('/', function(req, res) {
     if (profileCache[req.body.username]) {
         console.log(`Using cache data for ${req.body.username}`);
         updateSearchHistory(req.body.username);
-        renderUserInfo(res, profileCache[req.body.username]);
+        renderUserInfo(res, req, profileCache[req.body.username]);
     } else {
         const options = {
             hostname: 'api.github.com',
@@ -53,12 +53,11 @@ router.post('/', function(req, res) {
             apiResponse.on('end', function() {
                 try {
                     const userData = JSON.parse(rawData);
+                    console.log(userData);
                     // Cache te data
                     profileCache[req.body.username] = userData;
                     updateSearchHistory(req.body.username);
-                    renderUserInfo(res, userData);
-                    //console.log(userData);
-    
+                    renderUserInfo(res, req, userData);
                     //console.log(userData);
                 } catch (e) {
                     console.error(e.message);
@@ -79,7 +78,7 @@ router.post('/repos/:user', async function(req, res) {
     if (profileCache[user]) {
         console.log(`Using cached data for repositories of ${user}`);
         updateSearchHistory(user);
-        renderReposInfo(res, profileCache[user]);
+        renderReposInfo(res, req, profileCache[user]);
     } else {
         const options = {
             hostname: 'api.github.com',
@@ -94,7 +93,9 @@ router.post('/repos/:user', async function(req, res) {
             
             apiResponse.on('data', function(chunk) {
                 rawData += chunk;
+                console.log(rawData);
             });
+
     
             apiResponse.on('end', function() {
                 try {
@@ -102,7 +103,7 @@ router.post('/repos/:user', async function(req, res) {
                     // Cache the data
                     profileCache[user] = reposData;
                     updateSearchHistory(user);
-                    renderReposInfo(res, reposData);
+                    renderReposInfo(res, req, reposData);
                     //console.log(reposData);
                 } catch (e) {
                     console.error(e.message);
@@ -117,7 +118,7 @@ router.post('/repos/:user', async function(req, res) {
     
 });
 
-function renderUserInfo(res, userData) {
+function renderUserInfo(res, req, userData) {
     res.render('user_info', {
         avatar: userData.avatar_url,
         name: userData.name,
@@ -136,7 +137,7 @@ function renderUserInfo(res, userData) {
     });
 }
 
-function renderReposInfo(res, reposData) {
+function renderReposInfo(res, req, reposData) {
     //console.log(reposData);
     res.render('repos_info', { repos: reposData, searchHistory, loggedIn: req.isAuthenticated()});
 }

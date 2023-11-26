@@ -125,14 +125,14 @@ passport.deserializeUser(function(userObj, done) {
 });
 
 //middle ware to be used later
-function checkSignIn(req, res, next){
+/*function checkSignIn(req, res, next){
     //check if session exists
     if(req.isAuthenticated()){
        return next();    
     } else {
        res.redirect('/login'); 
     }
-}
+}*/
 function checkLoggedIn(req, res, next){
     if (req.isAuthenticated()) { 
         return res.redirect("/api");
@@ -164,8 +164,8 @@ app.get('/login', checkLoggedIn, function(req, res){
 });
 app.post('/login', function(req, res, next){
     passport.authenticate('local',  function(err, user, info) {
-        console.log("user password is " + user.password);
-        console.log("req password is " + req.body.password);
+        //console.log("user password is " + user.password);
+        //console.log("req password is " + req.body.password);
         if (err) {
             return next(err);
         }
@@ -194,6 +194,7 @@ app.post('/login', function(req, res, next){
 
     })(req, res, next);
 });
+
 /*app.post('/login',
 passport.authenticate('local', {
     successRedirect: '/api',
@@ -210,7 +211,6 @@ app.get('/logout', function(req, res){
 });
 
 app.get('/signup', function(req, res){
-    console.log(userInfo.username + " : " + userInfo.password);
     res.render('signup');
 });
 app.post('/signup', function(req, res){
