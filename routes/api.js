@@ -133,7 +133,7 @@ function renderUserInfo(res, req, userData) {
         joined: userData.created_at,
         twitter: userData.twitter_username,
         searchHistory,
-        loggedIn: req.isAuthenticated()
+        loggedIn: req.isAuthenticated(),
     });
 }
 
