@@ -2,8 +2,8 @@ extends layout
 
 block content
     if (username)
-        div(class = "shadow-2xl flex justify-center rounded")
-            div
+        div(class = "shadow-2xl md:flex md:items-center rounded text-xs md:text-base")
+            div(class="m-2")
                 h.font-bold USER INFO
                 br
                 if(avatar)
@@ -29,7 +29,7 @@ block content
                     span #{bio}
                     br
 
-            div
+            div(class="m-2")
                 h.font-bold GITHUB STATS
                 br
                 if(private)
@@ -54,9 +54,9 @@ block content
                     span.font-semibold Twitter: 
                     a(href=`https://twitter.com/${twitter}`) #{twitter}
 
-            div
+            div(class="m-2")
                 form(action=`/api/repos/${username}` method="POST")
-                    button(type="submit" class=" bg-gray-600 text-white px-4 py-1 rounded-3xl cursor-pointer border border-blue-900 hover:bg-gray-800") Top Repositories
+                    button(type="submit" class=" bg-gray-600 text-white px-4 py-1 rounded-3xl cursor-pointer border border-blue-900 hover:bg-gray-800 text-sm md:text-base") Repositories
     else 
-        p Username not available
+        p(class= "text-xs md:text-base") Username not available
 
