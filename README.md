@@ -10,16 +10,17 @@ User Authentication: Users can register, log in, and log out. Authenticated user
 
 Documentation Section: A concise and accessible documentation section provides users with information on how to use the application effectively.
 
-Getting Started
+## Getting Started
 
-    Clone the Repository:
+### Clone the Repository:
 
     bash
 
-git clone https://github.com/OdongMartin/github-profile-viewer.git
-cd github-profile-viewer
+    git clone https://github.com/OdongMartin/github-profile-viewer.git
+    
+    cd github-profile-viewer
 
-Install Dependencies:
+### Install Dependencies:
 
 bash
 
