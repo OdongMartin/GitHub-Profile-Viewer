@@ -29,9 +29,9 @@ bash
 ### Set Up Environment Variables:
 Create a .env file in the project root and add the following variables:
 
-APIKEY=your_github_api_key
-PASS=your_gmail_app_password
-EMAIL =your_gmail_email
+    APIKEY=your_github_api_key
+    PASS=your_gmail_app_password
+    EMAIL =your_gmail_email
 
 ### Run the Application:
 
