@@ -45,7 +45,7 @@ The application will be available at http://localhost:3000.
 
 #### GitHub Profile View:
 Visit the home page and enter a GitHub username to view detailed information about the user.
-![screen shot](.\img\readme-img.png)
+![screen shot](./img/readme-img.png)
 
     User Authentication:
         Register or log in to access additional features like changing themes
