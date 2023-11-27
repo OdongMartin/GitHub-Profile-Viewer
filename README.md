@@ -14,7 +14,7 @@ Documentation Section: A concise and accessible documentation section provides u
 
 ### Clone the Repository:
 
-    bash
+bash
 
     git clone https://github.com/OdongMartin/github-profile-viewer.git
     
@@ -22,32 +22,30 @@ Documentation Section: A concise and accessible documentation section provides u
 
 ### Install Dependencies:
 
-bash
+    bash
+    
+    npm install
 
-npm install
-
-Set Up Environment Variables:
+### Set Up Environment Variables:
 Create a .env file in the project root and add the following variables:
-
-env
 
 APIKEY=your_github_api_key
 PASS=your_gmail_app_password
 EMAIL =your_gmail_email
 
-Run the Application:
+### Run the Application:
 
 bash
 
-    npm start
+    nodemon server.js
 
-    The application will be available at http://localhost:3000.
+The application will be available at http://localhost:3000.
 
-Usage
+### Usage
 
-    GitHub Profile View:
-        Visit the home page and enter a GitHub username to view detailed information about the user.
-       ![screen shot](.\img\readme-img.png)
+#### GitHub Profile View:
+Visit the home page and enter a GitHub username to view detailed information about the user.
+![screen shot](.\img\readme-img.png)
 
     User Authentication:
         Register or log in to access additional features like changing themes
