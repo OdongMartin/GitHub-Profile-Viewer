@@ -181,8 +181,8 @@ app.post('/submit-feedback', function(req, res) {
 
     // Send feedback email
     const mailOptions = {
-        from: 'randomness2090@gmail.com',
-        to: 'odongmartin21@gmail.com',
+        from: EMAIL,
+        to: EMAIL,
         subject: 'Feedback from ' + req.body.name,
         text: `Name: ${req.body.name}\nEmail: ${req.body.email}\nMessage: ${req.body.message}`
     };

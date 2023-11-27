@@ -12,22 +12,38 @@ const profileCache = {};
 // Search history array
 const searchHistory = [];
 
+const themePref = ["dark-mode", "light-mode"];
+let currentTheme = themePref[1];
+changeToTheme = "Dark Mode";
+
+router.post("/change-theme", function(req, res) {
+    if (currentTheme === themePref[0]){
+        currentTheme = themePref[1];
+        changeToTheme = 'Dark Mode';
+        res.render('layout', {loggedIn: req.isAuthenticated(), theme: currentTheme, changeTheme: changeToTheme});
+    } else {
+        currentTheme = themePref[0];
+        changeToTheme ="Light Mode";
+        res.render('layout', {loggedIn: req.isAuthenticated(), theme: currentTheme, changeTheme: changeToTheme});
+    }
+})
+
 router.get('/documentation', function(req, res){
-    res.render('documentation', { searchHistory,  loggedIn: req.isAuthenticated()});
+    res.render('documentation', { searchHistory,  loggedIn: req.isAuthenticated(), theme: currentTheme, changeTheme: changeToTheme});
 })
 
 router.get('/feedback', function(req, res){
-    res.render('feedback', { searchHistory,  loggedIn: req.isAuthenticated()});
+    res.render('feedback', { searchHistory,  loggedIn: req.isAuthenticated(), theme: currentTheme, changeTheme: changeToTheme});
 })
 
 router.get('/', function(req, res) {
-    res.render('layout', { searchHistory, loggedIn: req.isAuthenticated()});
+    res.render('layout', { searchHistory, loggedIn: req.isAuthenticated(), theme: currentTheme, changeTheme: changeToTheme});
 })
 
 router.post('/', function(req, res) {
     // Check if the username only contains lowercase letters and no spaces
     if (!/^[a-zA-Z0-9]+$/.test(req.body.username) || req.body.username.includes(' ')) {
-        return res.render('layout', { message: 'Invalid username format' , loggedIn: req.isAuthenticated()});
+        return res.render('layout', { message: 'Invalid username format' , loggedIn: req.isAuthenticated(), theme: currentTheme, changeTheme: changeToTheme});
     }
 
     if (profileCache[req.body.username]) {
@@ -134,12 +150,14 @@ function renderUserInfo(res, req, userData) {
         twitter: userData.twitter_username,
         searchHistory,
         loggedIn: req.isAuthenticated(),
+        theme: currentTheme, 
+        changeTheme: changeToTheme
     });
 }
 
 function renderReposInfo(res, req, reposData) {
     //console.log(reposData);
-    res.render('repos_info', { repos: reposData, searchHistory, loggedIn: req.isAuthenticated()});
+    res.render('repos_info', { repos: reposData, searchHistory, loggedIn: req.isAuthenticated(), theme: currentTheme, changeTheme: changeToTheme});
 }
 
 function updateSearchHistory(username) {

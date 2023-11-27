@@ -7,7 +7,7 @@ html(lang="en")
         style 
             include ../public/styles/styles.css
             
-    body(class="dark-mode")
+    body(class=`${theme}`)
         div.flex.grid.grid-cols-3
         
             div.p-2
@@ -71,7 +71,7 @@ html(lang="en")
         main.flex.justify-center.p-2
             block content
             br
-        script.
+        //script.
             const menuButton = document.querySelector('#menuButton');
             const menu = document.querySelector('#menu');
 
@@ -135,9 +135,10 @@ html(lang="en")
                     ul 
                     each name in searchHistory
                         li #{name}
-        
-        div.p-2
-            <button id="darkModeToggle" class=" bg-gray-600 text-white px-4 py-1 rounded-3xl cursor-pointer border border-blue-900 hover:bg-gray-800"></button>
+        if(loggedIn)
+            div.p-2
+                form(action="/api/change-theme", method="POST") 
+                    <button type="submit" class=" bg-gray-600 text-white px-4 py-1 rounded-3xl cursor-pointer border border-blue-900 hover:bg-gray-800"> #{changeTheme} </button>
                     
 
         //p Made by OM
