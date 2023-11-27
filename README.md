@@ -41,23 +41,23 @@ bash
 
 The application will be available at http://localhost:3000.
 
-### Usage
+## Usage
 
-#### GitHub Profile View:
+### GitHub Profile View:
 Visit the home page and enter a GitHub username to view detailed information about the user.
 ![screen shot](public/img/readme-img.png)
 
-    User Authentication:
-        Register or log in to access additional features like changing themes
+### User Authentication:
+Register or log in to access additional features like changing themes
 
-    Documentation:
-        Visit the documentation page for guidance on using the application.
+### Documentation:
+Visit the documentation page for guidance on using the application.
 
-Contributing
-Contributions are welcome! Please follow the contribution guidelines.
+### Contributing
+Contributions are welcome! Please follow the contribution guidelines. 
 
-License
+### License
 This project is licensed under the MIT License.
-Acknowledgements
 
-    Special thanks to GitHub for providing the GitHub API.
+### Acknowledgements
+Special thanks to GitHub for providing the GitHub API.
