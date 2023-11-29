@@ -14,7 +14,7 @@ Documentation Section: A concise and accessible documentation section provides u
 
 ### Clone the Repository:
 
-bash
+    bash
 
     git clone https://github.com/OdongMartin/github-profile-viewer.git
     
