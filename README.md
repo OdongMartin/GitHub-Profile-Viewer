@@ -6,7 +6,7 @@ GitHub Profile Viewer is a web application that allows users to view GitHub prof
 ## Features
 GitHub Profile Viewer: Enter a GitHub username to view detailed information about the user, including their avatar, name, bio, email, location, repository stats, and more.
 
-User Authentication: Users can register, log in, and log out. Authenticated users have access to additional features such as changing theme to dark mode
+User Authentication: Users can register, log in, and log out. Authenticated users have access to additional features such as changing theme to dark mode.
 
 Documentation Section: A concise and accessible documentation section provides users with information on how to use the application effectively.
 
