@@ -1,6 +1,6 @@
 ﻿# GitHub-Profile-Viewer
 
-Overview
+## Overview
 
 GitHub Profile Viewer is a web application that allows users to view GitHub profiles, repositories, and other information. It provides features such as user authentication, documentation, and more.
 
